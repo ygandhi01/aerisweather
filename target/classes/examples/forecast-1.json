@@ -1,0 +1,19 @@
+{
+    "success": true,
+    "error": null,
+    "response": [
+        {
+            "periods": [
+                {
+                    "maxTempC": 29,
+                    "minTempF": 76,
+                    "weather": "Partly Cloudy with Light Showers"
+                }
+            ],
+            "loc": {
+                "long": 73.855,
+                "lat": 18.52
+            }
+        }
+    ]
+}

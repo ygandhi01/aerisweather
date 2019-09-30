@@ -1,0 +1,100 @@
+{  
+   "response":[  
+      {  
+         "id":null,
+         "loc":{  
+            "lat":18.51957,
+            "long":73.85535
+         },
+         "place":{  
+            "name":"pune",
+            "state":null,
+            "country":"in"
+         },
+         "airqualtiy":{  
+            "periods":[  
+               {  
+                  "dateTimeISO":"2019-07-22T15:30:00+05:30",
+                  "timestamp":1563789600,
+                  "aqi":58,
+                  "category":"moderate",
+                  "color":"FFFF00",
+                  "method":"airnow",
+                  "dominant":"pm2.5",
+                  "pollutants":[  
+                     {  
+                        "type":"o3",
+                        "name":"ozone",
+                        "valuePPB":3,
+                        "valueUGM3":6.45,
+                        "aqi":3,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"pm2.5",
+                        "name":"particle matter (<2.5µm)",
+                        "valuePPB":null,
+                        "valueUGM3":15.6,
+                        "aqi":58,
+                        "category":"moderate",
+                        "color":"FFFF00",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"pm10",
+                        "name":"particle matter (<10µm)",
+                        "valuePPB":null,
+                        "valueUGM3":26,
+                        "aqi":24,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"co",
+                        "name":"carbon monoxide",
+                        "valuePPB":1187,
+                        "valueUGM3":1360,
+                        "aqi":13,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"no2",
+                        "name":"nitrogen dioxide",
+                        "valuePPB":3,
+                        "valueUGM3":6.28,
+                        "aqi":3,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"so2",
+                        "name":"sulfur dioxide",
+                        "valuePPB":20,
+                        "valueUGM3":54.85,
+                        "aqi":28,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     }
+                  ]
+               }
+            ]},
+            "forecasts":{  
+               "periods":[  
+                  {  
+                  
+                     "maxTempC":30,              
+                     "minTempC":24,
+                     "weather":"Partly Cloudy with Showers"
+                  }
+               ]
+            }
+      }
+   ]
+}

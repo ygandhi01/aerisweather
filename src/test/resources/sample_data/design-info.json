@@ -1,0 +1,22 @@
+{
+  "sampleData": {
+    "793c95b4-7ebd-4171-8bd0-691e72e46a45": {
+      "payload": "sample_data/object.dwl"
+    },
+    "b57a69b5-2abf-4baa-af91-407e6f8495b1": {
+      "payload": "sample_data/object_1.dwl"
+    },
+    "a6f8b705-20e8-4f71-9422-92215fd290c9": {
+      "payload": "sample_data/object_2.dwl"
+    },
+    "fc67f09d-64a6-44df-a814-bf38c5f43973": {
+      "payload": "sample_data/object_3.dwl"
+    },
+    "189aaf1c-ee79-40de-8b4c-43af6cfd6155": {
+      "payload": "sample_data/object_4.dwl"
+    },
+    "d80fe86a-f80b-43eb-a74c-983e00256f9a": {
+      "payload": "sample_data/json.json"
+    }
+  }
+}

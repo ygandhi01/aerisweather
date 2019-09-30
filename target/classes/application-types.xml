@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="id" format="json">
+      <types:shape format="weave" example="examples/american-flights-example.json"><![CDATA[%dw 2.0
+
+type id = Array<{|  ID: Number {"typeId": "int"},   code: String,   price: Number {"typeId": "int"},   departureDate: String,   origin: String,   destination: String,   emptySeats: Number {"typeId": "int"},   plane: {|    "type": String,     totalSeats: Number {"typeId": "int"}  |}|}> {"example": "[{\"ID\":1,\"code\":\"ER38sd\",\"price\":400,\"departureDate\":\"2016\/03\/20\",\"origin\":\"MUA\",\"destination\":\"SFO\",\"emptySeats\":0,\"plane\":{\"type\":\"Boeing 737\",\"totalSeats\":150}},{\"ID\":2,\"code\":\"ER45if\",\"price\":345.99,\"departureDate\":\"2016\/02\/11\",\"origin\":\"MUA\",\"destination\":\"LAX\",\"emptySeats\":52,\"plane\":{\"type\":\"Boeing 777\",\"totalSeats\":300}}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="age" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: integer]]></types:shape>
+    </types:type>
+    <types:type name="response" format="json">
+      <types:shape format="weave" example="examples/response-3.json"><![CDATA[%dw 2.0
+
+type response = {|
+  response: Array<{|    airqualtiy: {|      loc: {|        lat: Number {"typeId": "double"},         long: Number {"typeId": "double"}      |},       place: {|        name: String,         state: Null,         country: String      |},       periods: Array<{|        dateTimeISO: String,         timestamp: Number {"typeId": "int"},         aqi: Number {"typeId": "int"},         category: String,         color: String,         method: String,         dominant: String,         pollutants: Array<{|          "type": String,           name: String,           valuePPB: Number {"typeId": "int"},           valueUGM3: Number {"typeId": "double"},           aqi: Number {"typeId": "int"},           category: String,           color: String,           method: String        |}>
+      |}>
+    |}, 
+    forecasts: {|
+      periods: Array<{|        maxTempC: Number {"typeId": "int"},         minTempC: Number {"typeId": "int"},         weather: String      |}>, 
+      loc: {|
+        long: Number {"typeId": "double"}, 
+        lat: Number {"typeId": "double"}
+      |}
+    |}, 
+    alerts: {|
+      details: {|
+        name: String, 
+        body: String
+      |}, 
+      payload: {|
+        error: {|
+          code: String, 
+          description: String
+        |}
+      |}
+    |}
+  |}>
+|} {"example": "{\"response\":[{\"airqualtiy\":{\"loc\":{\"lat\":18.51957,\"long\":73.85535},\"place\":{\"name\":\"pune\",\"state\":null,\"country\":\"in\"},\"periods\":[{\"dateTimeISO\":\"2019-07-22T15:30:00+05:30\",\"timestamp\":1563789600,\"aqi\":58,\"category\":\"moderate\",\"color\":\"FFFF00\",\"method\":\"airnow\",\"dominant\":\"pm2.5\",\"pollutants\":[{\"type\":\"o3\",\"name\":\"ozone\",\"valuePPB\":3,\"valueUGM3\":6.45,\"aqi\":3,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"pm2.5\",\"name\":\"particle matter (<2.5\u00C2\u00B5m)\",\"valuePPB\":null,\"valueUGM3\":15.6,\"aqi\":58,\"category\":\"moderate\",\"color\":\"FFFF00\",\"method\":\"airnow\"},{\"type\":\"pm10\",\"name\":\"particle matter (<10\u00C2\u00B5m)\",\"valuePPB\":null,\"valueUGM3\":26,\"aqi\":24,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"co\",\"name\":\"carbon monoxide\",\"valuePPB\":1187,\"valueUGM3\":1360,\"aqi\":13,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"no2\",\"name\":\"nitrogen dioxide\",\"valuePPB\":3,\"valueUGM3\":6.28,\"aqi\":3,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"so2\",\"name\":\"sulfur dioxide\",\"valuePPB\":20,\"valueUGM3\":54.85,\"aqi\":28,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"}]}]},\"forecasts\":{\"periods\":[{\"maxTempC\":30,\"minTempC\":24,\"weather\":\"Partly Cloudy with Showers\"}],\"loc\":{\"long\":73.855,\"lat\":18.52}},\"alerts\":{\"details\":{\"name\":\"FLASH FLOOD WATCH\",\"body\":\"...FLASH FLOODING POSSIBLE THIS MORNING...\\n\\n\\n...FLASH FLOOD WATCH NOW IN EFFECT UNTIL NOON EDT TODAY...\\n\\nThe Flash Flood Watch is now in effect for\\n\\n* Portions of southern Connecticut, northeast New Jersey, and \\nsoutheast New York, including the following areas, in southern \\nConnecticut, Northern Fairfield, Northern New Haven, Southern \\nFairfield, and Southern New Haven. In northeast New Jersey, \\nEastern Bergen, Eastern Essex, Eastern Passaic, Eastern Union, \\nHudson, Western Bergen, Western Essex, Western Passaic, and \\nWestern Union. In southeast New York, Bronx, Kings (Brooklyn), \\nNew York (Manhattan), Northern Nassau, Northern Queens, \\nNorthern Westchester, Orange, Putnam, Richmond (Staten \\nIsland), Rockland, Southern Nassau, Southern Queens, and \\nSouthern Westchester. \\n\\n* Until noon EDT today\\n\\n* As much as 1 to 3 inches of rain, with locally higher amounts,\\nfell across the watch area Monday afternoon and evening.\\nScattered heavy rain showers and isolated thunderstorms will\\ncontinue to move across the area this morning, with an\\nadditional 1\/2 to 1 inch of rain possible. \\n\\n* Additional heavy rain moving over already saturated grounds, may\\nproduce localized flash flooding. This will be especially true\\nin areas of poor drainage, low-lying areas, and in urban areas.\\n\\nA Flash Flood Watch means that conditions may develop that lead\\nto flash flooding. Flash flooding is a very dangerous situation.\\nYou should monitor later forecasts and be prepared to take action\\nshould flash flood warnings be issued.\"},\"payload\":{\"error\":{\"code\":\"warn_no_data\",\"description\":\"Valid request. No results available based on your query parameters.\"}}}}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="airquality" format="json">
+      <types:shape format="weave" example="examples/airquality-3.json"><![CDATA[%dw 2.0
+
+type airquality = {|
+  success: Boolean, 
+  error: Null, 
+  response: Array<{|    loc: {|      lat: Number {"typeId": "double"},       long: Number {"typeId": "double"}    |},     place: {|      name: String,       state: String,       country: String    |},     periods: Array<{|      dominant: String,       pollutants: Array<{|        "type": String,         name: String,         valuePPB: Number {"typeId": "int"},         valueUGM3: Number {"typeId": "int"},         aqi: Number {"typeId": "int"},         category: String,         color: String,         method: String      |}>
+    |}>
+  |}>
+|} {"example": "{\"success\":true,\"error\":null,\"response\":[{\"loc\":{\"lat\":40.71427,\"long\":-74.00597},\"place\":{\"name\":\"new york\",\"state\":\"ny\",\"country\":\"us\"},\"periods\":[{\"dominant\":\"o3\",\"pollutants\":[{\"type\":\"o3\",\"name\":\"ozone\",\"valuePPB\":12,\"valueUGM3\":24,\"aqi\":11,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"pm2.5\",\"name\":\"particle matter (<2.5\u00C2\u00B5m)\",\"valuePPB\":null,\"valueUGM3\":2.4,\"aqi\":10,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"pm10\",\"name\":\"particle matter (<10\u00C2\u00B5m)\",\"valuePPB\":null,\"valueUGM3\":5,\"aqi\":5,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"co\",\"name\":\"carbon monoxide\",\"valuePPB\":224,\"valueUGM3\":257,\"aqi\":2,\"category\":\"good\",\"color\":\"00E400\"},{\"type\":\"no2\",\"name\":\"nitrogen dioxide\",\"valuePPB\":9.5,\"valueUGM3\":17.86,\"aqi\":9,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"so2\",\"name\":\"sulfur dioxide\",\"valuePPB\":1,\"valueUGM3\":2.62,\"aqi\":1,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"}]}]}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="forecast" format="json">
+      <types:shape format="weave" example="examples/forecast-3.json"><![CDATA[%dw 2.0
+
+type forecast = {|
+  success: Boolean, 
+  error: Null, 
+  response: Array<{|    loc: {|      long: Number {"typeId": "double"},       lat: Number {"typeId": "double"}    |},     periods: Array<{|      maxTempC: Number {"typeId": "int"},       minTempC: Number {"typeId": "int"},       weather: String    |}>
+  |}>
+|} {"example": "{\"success\":true,\"error\":null,\"response\":[{\"loc\":{\"long\":-74.006,\"lat\":40.714},\"periods\":[{\"maxTempC\":24,\"minTempC\":19,\"weather\":\"Mostly Cloudy with Showers\"}]}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="response1" format="json">
+      <types:shape format="weave" example="examples/response1-4.json"><![CDATA[%dw 2.0
+
+type response1 = {|
+  response: Array<{|    airqualtiy: {|      loc: {|        lat: Number {"typeId": "double"},         long: Number {"typeId": "double"}      |},       place: {|        name: String,         state: Null,         country: String      |},       periods: Array<{|        dateTimeISO: String,         timestamp: Number {"typeId": "int"},         aqi: Number {"typeId": "int"},         category: String,         color: String,         method: String,         dominant: String,         pollutants: Array<{|          "type": String,           name: String,           valuePPB: Number {"typeId": "int"},           valueUGM3: Number {"typeId": "double"},           aqi: Number {"typeId": "int"},           category: String,           color: String,           method: String        |}>
+      |}>
+    |}, 
+    forecasts: {|
+      periods: Array<{|        maxTempC: Number {"typeId": "int"},         minTempC: Number {"typeId": "int"},         weather: String      |}>, 
+      loc: {|
+        long: Number {"typeId": "double"}, 
+        lat: Number {"typeId": "double"}
+      |}
+    |}, 
+    alerts: {|
+      details: {|
+        name: String, 
+        body: String
+      |}, 
+      loc: {|
+        long: Number {"typeId": "double"}, 
+        lat: Number {"typeId": "double"}
+      |}
+    |}
+  |}>
+|} {"example": "{\"response\":[{\"airqualtiy\":{\"loc\":{\"lat\":18.51957,\"long\":73.85535},\"place\":{\"name\":\"pune\",\"state\":null,\"country\":\"in\"},\"periods\":[{\"dateTimeISO\":\"2019-07-22T15:30:00+05:30\",\"timestamp\":1563789600,\"aqi\":58,\"category\":\"moderate\",\"color\":\"FFFF00\",\"method\":\"airnow\",\"dominant\":\"pm2.5\",\"pollutants\":[{\"type\":\"o3\",\"name\":\"ozone\",\"valuePPB\":3,\"valueUGM3\":6.45,\"aqi\":3,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"pm2.5\",\"name\":\"particle matter (<2.5\u00C2\u00B5m)\",\"valuePPB\":null,\"valueUGM3\":15.6,\"aqi\":58,\"category\":\"moderate\",\"color\":\"FFFF00\",\"method\":\"airnow\"},{\"type\":\"pm10\",\"name\":\"particle matter (<10\u00C2\u00B5m)\",\"valuePPB\":null,\"valueUGM3\":26,\"aqi\":24,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"co\",\"name\":\"carbon monoxide\",\"valuePPB\":1187,\"valueUGM3\":1360,\"aqi\":13,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"no2\",\"name\":\"nitrogen dioxide\",\"valuePPB\":3,\"valueUGM3\":6.28,\"aqi\":3,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"so2\",\"name\":\"sulfur dioxide\",\"valuePPB\":20,\"valueUGM3\":54.85,\"aqi\":28,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"}]}]},\"forecasts\":{\"periods\":[{\"maxTempC\":30,\"minTempC\":24,\"weather\":\"Partly Cloudy with Showers\"}],\"loc\":{\"long\":73.855,\"lat\":18.52}},\"alerts\":{\"details\":{\"name\":\"FLASH FLOOD WATCH\",\"body\":\"...FLASH FLOODING POSSIBLE THIS MORNING...\\n\\n\\n...FLASH FLOOD WATCH NOW IN EFFECT UNTIL NOON EDT TODAY...\\n\\nThe Flash Flood Watch is now in effect for\\n\\n* Portions of southern Connecticut, northeast New Jersey, and \\nsoutheast New York, including the following areas, in southern \\nConnecticut, Northern Fairfield, Northern New Haven, Southern \\nFairfield, and Southern New Haven. In northeast New Jersey, \\nEastern Bergen, Eastern Essex, Eastern Passaic, Eastern Union, \\nHudson, Western Bergen, Western Essex, Western Passaic, and \\nWestern Union. In southeast New York, Bronx, Kings (Brooklyn), \\nNew York (Manhattan), Northern Nassau, Northern Queens, \\nNorthern Westchester, Orange, Putnam, Richmond (Staten \\nIsland), Rockland, Southern Nassau, Southern Queens, and \\nSouthern Westchester. \\n\\n* Until noon EDT today\\n\\n* As much as 1 to 3 inches of rain, with locally higher amounts,\\nfell across the watch area Monday afternoon and evening.\\nScattered heavy rain showers and isolated thunderstorms will\\ncontinue to move across the area this morning, with an\\nadditional 1\/2 to 1 inch of rain possible. \\n\\n* Additional heavy rain moving over already saturated grounds, may\\nproduce localized flash flooding. This will be especially true\\nin areas of poor drainage, low-lying areas, and in urban areas.\\n\\nA Flash Flood Watch means that conditions may develop that lead\\nto flash flooding. Flash flooding is a very dangerous situation.\\nYou should monitor later forecasts and be prepared to take action\\nshould flash flood warnings be issued.\"},\"loc\":{\"long\":-73.9689,\"lat\":40.7786}}}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="alerts" format="json">
+      <types:shape format="weave" example="examples/alerts-2.json"><![CDATA[%dw 2.0
+
+type alerts = {|
+  success: Boolean, 
+  error: Null, 
+  response: Array<{|    details: {|      name: String,       body: String    |},     loc: {|      long: Number {"typeId": "double"},       lat: Number {"typeId": "double"}    |}  |}>
+|} {"example": "{\"success\":true,\"error\":null,\"response\":[{\"details\":{\"name\":\"FLASH FLOOD WATCH\",\"body\":\"...FLASH FLOODING POSSIBLE THIS MORNING...\\n\\n\\n...FLASH FLOOD WATCH NOW IN EFFECT UNTIL NOON EDT TODAY...\\n\\nThe Flash Flood Watch is now in effect for\\n\\n* Portions of southern Connecticut, northeast New Jersey, and \\nsoutheast New York, including the following areas, in southern \\nConnecticut, Northern Fairfield, Northern New Haven, Southern \\nFairfield, and Southern New Haven. In northeast New Jersey, \\nEastern Bergen, Eastern Essex, Eastern Passaic, Eastern Union, \\nHudson, Western Bergen, Western Essex, Western Passaic, and \\nWestern Union. In southeast New York, Bronx, Kings (Brooklyn), \\nNew York (Manhattan), Northern Nassau, Northern Queens, \\nNorthern Westchester, Orange, Putnam, Richmond (Staten \\nIsland), Rockland, Southern Nassau, Southern Queens, and \\nSouthern Westchester. \\n\\n* Until noon EDT today\\n\\n* As much as 1 to 3 inches of rain, with locally higher amounts,\\nfell across the watch area Monday afternoon and evening.\\nScattered heavy rain showers and isolated thunderstorms will\\ncontinue to move across the area this morning, with an\\nadditional 1\/2 to 1 inch of rain possible. \\n\\n* Additional heavy rain moving over already saturated grounds, may\\nproduce localized flash flooding. This will be especially true\\nin areas of poor drainage, low-lying areas, and in urban areas.\\n\\nA Flash Flood Watch means that conditions may develop that lead\\nto flash flooding. Flash flooding is a very dangerous situation.\\nYou should monitor later forecasts and be prepared to take action\\nshould flash flood warnings be issued.\"},\"loc\":{\"long\":-73.9689,\"lat\":40.7786}},{\"details\":{\"name\":\"FLOOD ADVISORY\",\"body\":\"The National Weather Service in Upton NY has issued a\\n\\n* Flood Advisory for Minor Flooding in Poor Drainage Areas for...\\nHudson County in northeastern New Jersey...\\nUnion County in northeastern New Jersey...\\nSouthern Essex County in northeastern New Jersey...\\nQueens County in southeastern New York...\\nRichmond County in southeastern New York...\\nKings County in southeastern New York...\\nNew York (Manhattan) County in southeastern New York...\\nWestern Nassau County in southeastern New York...\\n\\n* Until 815 AM EDT.\\n\\n* At 612 AM EDT, Doppler radar indicated moderate to locally heavy \\nrain due to showers. This will cause minor flooding. Overflowing \\npoor drainage areas will result in minor flooding in the advisory \\narea.\\n\\n* Some locations that will experience flooding include...\\nNewark, Jersey City, Jamaica, Elizabeth, Flatbush, Flushing,\\nBayonne, Plainfield, Linden, Valley Stream, Long Beach, Coney\\nIsland, Garden City, Summit and Millburn.\"},\"loc\":{\"long\":-73.9689264189,\"lat\":40.7786445122}}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="response2" format="json">
+      <types:shape format="weave" example="examples/response2.json"><![CDATA[%dw 2.0
+
+type response2 = {|
+  loc: {|
+    lat: Number {"typeId": "double"}, 
+    long: Number {"typeId": "double"}
+  |}, 
+  airqualtiy: {|
+    place: {|
+      name: String, 
+      state: Null, 
+      country: String
+    |}, 
+    periods: Array<{|      dominant: String,       pollutants: Array<{|        "type": String,         name: String,         valuePPB: Number {"typeId": "int"},         valueUGM3: Number {"typeId": "double"},         aqi: Number {"typeId": "int"},         category: String,         color: String,         method: String      |}>
+    |}>
+  |}, 
+  forecasts: {|
+    periods: Array<{|      maxTempC: Number {"typeId": "int"},       minTempC: Number {"typeId": "int"},       weather: String    |}>, 
+    loc: {|
+      long: Number {"typeId": "double"}, 
+      lat: Number {"typeId": "double"}
+    |}
+  |}, 
+  alerts: {|
+    details: {|
+      name: String, 
+      body: String
+    |}
+  |}
+|} {"example": "{\"loc\":{\"lat\":18.51957,\"long\":73.85535},\"airqualtiy\":{\"place\":{\"name\":\"pune\",\"state\":null,\"country\":\"in\"},\"periods\":[{\"dominant\":\"pm2.5\",\"pollutants\":[{\"type\":\"o3\",\"name\":\"ozone\",\"valuePPB\":3,\"valueUGM3\":6.45,\"aqi\":3,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"pm2.5\",\"name\":\"particle matter (<2.5\u00C2\u00B5m)\",\"valuePPB\":null,\"valueUGM3\":15.6,\"aqi\":58,\"category\":\"moderate\",\"color\":\"FFFF00\",\"method\":\"airnow\"},{\"type\":\"pm10\",\"name\":\"particle matter (<10\u00C2\u00B5m)\",\"valuePPB\":null,\"valueUGM3\":26,\"aqi\":24,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"co\",\"name\":\"carbon monoxide\",\"valuePPB\":1187,\"valueUGM3\":1360,\"aqi\":13,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"no2\",\"name\":\"nitrogen dioxide\",\"valuePPB\":3,\"valueUGM3\":6.28,\"aqi\":3,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"},{\"type\":\"so2\",\"name\":\"sulfur dioxide\",\"valuePPB\":20,\"valueUGM3\":54.85,\"aqi\":28,\"category\":\"good\",\"color\":\"00E400\",\"method\":\"airnow\"}]}]},\"forecasts\":{\"periods\":[{\"maxTempC\":30,\"minTempC\":24,\"weather\":\"Partly Cloudy with Showers\"}],\"loc\":{\"long\":73.855,\"lat\":18.52}},\"alerts\":{\"details\":{\"name\":\"FLASH FLOOD WATCH\",\"body\":\"...FLASH FLOODING POSSIBLE THIS MORNING...\\n\\n\\n...FLASH FLOOD WATCH NOW IN EFFECT UNTIL NOON EDT TODAY...\\n\\nThe Flash Flood Watch is now in effect for\\n\\n* Portions of southern Connecticut, northeast New Jersey, and \\nsoutheast New York, including the following areas, in southern \\nConnecticut, Northern Fairfield, Northern New Haven, Southern \\nFairfield, and Southern New Haven. In northeast New Jersey, \\nEastern Bergen, Eastern Essex, Eastern Passaic, Eastern Union, \\nHudson, Western Bergen, Western Essex, Western Passaic, and \\nWestern Union. In southeast New York, Bronx, Kings (Brooklyn), \\nNew York (Manhattan), Northern Nassau, Northern Queens, \\nNorthern Westchester, Orange, Putnam, Richmond (Staten \\nIsland), Rockland, Southern Nassau, Southern Queens, and \\nSouthern Westchester. \\n\\n* Until noon EDT today\\n\\n* As much as 1 to 3 inches of rain, with locally higher amounts,\\nfell across the watch area Monday afternoon and evening.\\nScattered heavy rain showers and isolated thunderstorms will\\ncontinue to move across the area this morning, with an\\nadditional 1\/2 to 1 inch of rain possible. \\n\\n* Additional heavy rain moving over already saturated grounds, may\\nproduce localized flash flooding. This will be especially true\\nin areas of poor drainage, low-lying areas, and in urban areas.\\n\\nA Flash Flood Watch means that conditions may develop that lead\\nto flash flooding. Flash flooding is a very dangerous situation.\\nYou should monitor later forecasts and be prepared to take action\\nshould flash flood warnings be issued.\"}}}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a6f8b705-20e8-4f71-9422-92215fd290c9">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="response"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#d80fe86a-f80b-43eb-a74c-983e00256f9a">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="airquality"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="airquality"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#8558720e-fb58-45cc-9208-7df81caf75ea">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="forecast"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="forecast"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#5adbba18-de2c-405e-9498-85735c0c82cd">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="alerts"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="alerts"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#189aaf1c-ee79-40de-8b4c-43af6cfd6155">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="response2"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

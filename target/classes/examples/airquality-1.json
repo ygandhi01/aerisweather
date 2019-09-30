@@ -1,0 +1,84 @@
+{
+    "success": true,
+    "error": null,
+    "response": [
+        {
+            "loc": {
+                "lat": 44.9778,
+                "long": -93.265
+            },
+            "place": {
+                "name": "minneapolis",
+                "state": "mn",
+                "country": "us"
+            },
+            "periods": [
+                {
+                    "dominant": "pm2.5",
+                    "pollutants": [
+                        {
+                            "type": "o3",
+                            "name": "ozone",
+                            "valuePPB": 15.5,
+                            "valueUGM3": 31,
+                            "aqi": 14,
+                            "category": "good",
+                            "color": "00E400",
+                            "method": "airnow"
+                        },
+                        {
+                            "type": "pm2.5",
+                            "name": "particle matter (<2.5µm)",
+                            "valuePPB": null,
+                            "valueUGM3": 5.8,
+                            "aqi": 24,
+                            "category": "good",
+                            "color": "00E400",
+                            "method": "airnow"
+                        },
+                        {
+                            "type": "pm10",
+                            "name": "particle matter (<10µm)",
+                            "valuePPB": null,
+                            "valueUGM3": 18.6,
+                            "aqi": 17,
+                            "category": "good",
+                            "color": "00E400",
+                            "method": "airnow"
+                        },
+                        {
+                            "type": "co",
+                            "name": "carbon monoxide",
+                            "valuePPB": 320,
+                            "valueUGM3": 366.4,
+                            "aqi": 4,
+                            "category": "good",
+                            "color": "00E400",
+                            "method": "airnow"
+                        },
+                        {
+                            "type": "no2",
+                            "name": "nitrogen dioxide",
+                            "valuePPB": 6,
+                            "valueUGM3": 11.28,
+                            "aqi": 6,
+                            "category": "good",
+                            "color": "00E400",
+                            "method": "airnow"
+                        },
+                        {
+                            "type": "so2",
+                            "name": "sulfur dioxide",
+                            "valuePPB": 0,
+                            "valueUGM3": 0,
+                            "aqi": 0,
+                            "category": "good",
+                            "color": "00E400",
+                            "method": "airnow"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

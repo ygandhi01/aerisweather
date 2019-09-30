@@ -1,0 +1,114 @@
+{  
+   "response":[  
+      {  
+        
+         
+         "airqualtiy":{  
+		 "loc":{  
+            "lat":18.51957,
+            "long":73.85535
+         },
+         "place":{  
+            "name":"pune",
+            "state":null,
+            "country":"in"
+         },
+            "periods":[  
+               {  
+                  "dateTimeISO":"2019-07-22T15:30:00+05:30",
+                  "timestamp":1563789600,
+                  "aqi":58,
+                  "category":"moderate",
+                  "color":"FFFF00",
+                  "method":"airnow",
+                  "dominant":"pm2.5",
+                  "pollutants":[  
+                     {  
+                        "type":"o3",
+                        "name":"ozone",
+                        "valuePPB":3,
+                        "valueUGM3":6.45,
+                        "aqi":3,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"pm2.5",
+                        "name":"particle matter (<2.5µm)",
+                        "valuePPB":null,
+                        "valueUGM3":15.6,
+                        "aqi":58,
+                        "category":"moderate",
+                        "color":"FFFF00",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"pm10",
+                        "name":"particle matter (<10µm)",
+                        "valuePPB":null,
+                        "valueUGM3":26,
+                        "aqi":24,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"co",
+                        "name":"carbon monoxide",
+                        "valuePPB":1187,
+                        "valueUGM3":1360,
+                        "aqi":13,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"no2",
+                        "name":"nitrogen dioxide",
+                        "valuePPB":3,
+                        "valueUGM3":6.28,
+                        "aqi":3,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     },
+                     {  
+                        "type":"so2",
+                        "name":"sulfur dioxide",
+                        "valuePPB":20,
+                        "valueUGM3":54.85,
+                        "aqi":28,
+                        "category":"good",
+                        "color":"00E400",
+                        "method":"airnow"
+                     }
+                  ]
+               }
+            ]},
+            "forecasts":{  
+               "periods":[  
+                  {  
+                    "maxTempC":30,              
+                     "minTempC":24,
+                     "weather":"Partly Cloudy with Showers"
+                  }
+               ], 
+			   "loc": {
+                "long": 73.855,
+                "lat": 18.52
+            }
+            },
+			"alerts" : {
+            "details": {
+                "name": "FLASH FLOOD WATCH",
+                "body": "...FLASH FLOODING POSSIBLE THIS MORNING...\n\n\n...FLASH FLOOD WATCH NOW IN EFFECT UNTIL NOON EDT TODAY...\n\nThe Flash Flood Watch is now in effect for\n\n* Portions of southern Connecticut, northeast New Jersey, and \nsoutheast New York, including the following areas, in southern \nConnecticut, Northern Fairfield, Northern New Haven, Southern \nFairfield, and Southern New Haven. In northeast New Jersey, \nEastern Bergen, Eastern Essex, Eastern Passaic, Eastern Union, \nHudson, Western Bergen, Western Essex, Western Passaic, and \nWestern Union. In southeast New York, Bronx, Kings (Brooklyn), \nNew York (Manhattan), Northern Nassau, Northern Queens, \nNorthern Westchester, Orange, Putnam, Richmond (Staten \nIsland), Rockland, Southern Nassau, Southern Queens, and \nSouthern Westchester. \n\n* Until noon EDT today\n\n* As much as 1 to 3 inches of rain, with locally higher amounts,\nfell across the watch area Monday afternoon and evening.\nScattered heavy rain showers and isolated thunderstorms will\ncontinue to move across the area this morning, with an\nadditional 1/2 to 1 inch of rain possible. \n\n* Additional heavy rain moving over already saturated grounds, may\nproduce localized flash flooding. This will be especially true\nin areas of poor drainage, low-lying areas, and in urban areas.\n\nA Flash Flood Watch means that conditions may develop that lead\nto flash flooding. Flash flooding is a very dangerous situation.\nYou should monitor later forecasts and be prepared to take action\nshould flash flood warnings be issued."
+            },
+            "loc": {
+                "long": -73.9689,
+                "lat": 40.7786
+            }
+      }
+   }
+]
+}

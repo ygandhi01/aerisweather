@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+
+
+<configuration-properties doc:name="Configuration properties" doc:id="d801e078-3ef0-4b79-a280-4c1602935899" file="property.properties" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1de9d424-287c-4d07-b5f1-bc525852736e" >
+		<http:listener-connection host="0.0.0.0" port="${https.port}" protocol="HTTPS">
+			<tls:context >
+				<tls:key-store type="jks" path="keystore/keystore.jks" alias="mule" keyPassword="MuleSoft123!" password="MuleSoft123!" />
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="5ace32d9-2304-4aa7-9758-99f98953e254">
+		<http:request-connection host="api.aerisapi.com" port="443" protocol="HTTPS">
+		</http:request-connection> 
+	</http:request-config> 
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="357b0d60-3329-411f-a0f5-28cb61b553bb" >
+		<http:request-connection protocol="HTTPS" host="api.aerisapi.com" port="443" />
+	</http:request-config>
+	<flow name="aerisweatherFlow" doc:id="90708bad-0cb8-4619-b6ee-4f34c40227f7" >
+		<http:listener doc:name="Listener" doc:id="d96b2928-2b24-459b-8712-4f2c0f832fa7" path="/api/{city}" config-ref="HTTP_Listener_config"/>
+		<set-variable value="#[attributes.uriParams.'city']" doc:name="Set Variable" doc:id="83f07294-4f17-490a-84f8-52ace29bd001" variableName="location"/>
+		<logger level="INFO" doc:name="Logger" doc:id="3156a2e4-2f15-4e09-bfa6-ea0744057f02" message="#[payload]"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="1a97dae2-2f58-41a8-b338-36c9bd953bfc" >
+			<route >
+				<http:request method="GET" doc:name="Request" doc:id="c203a4e5-1571-4c04-bce8-5d3d63e17326" config-ref="HTTP_Request_configuration1" path="/airquality/{city}">
+					<reconnect />
+					<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	'city' : vars.location
+}]]]></http:uri-params>
+					<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"client_id" : "CBOrZQokTXXpO0BKZp83V",
+	"client_secret" : "qZnXCZuSn8s5XRdhya6ebqiFIDJTKwyMSzKAxc4S",
+	"fields" : "loc,place,periods.dominant,periods.pollutants"
+}]]]></http:query-params>
+				</http:request>
+				<ee:transform doc:name="Transform Message" doc:id="d80fe86a-f80b-43eb-a74c-983e00256f9a" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	success: payload.success,
+	error: payload.error,
+	response: payload.response map ( response , indexOfResponse ) -> {
+		loc: response.loc,
+		place: response.place,
+		periods: response.periods map ( period , indexOfPeriod ) -> {
+			dominant: period.dominant,
+			pollutants: period.pollutants map ( pollutant , indexOfPollutant ) -> {
+				"type": pollutant."type",
+				name: pollutant.name,
+				valuePPB: pollutant.valuePPB,
+				valueUGM3: pollutant.valueUGM3,
+				aqi: pollutant.aqi,
+				category: pollutant.category,
+				color: pollutant.color,
+				method: pollutant.method
+			}
+		}
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="ac20a6ed-e13a-4217-bfef-b0db2b2f4346" message="airquality #[payload]" />
+			</route>
+			<route >
+				<http:request method="GET" doc:name="Request Forecast" doc:id="182428ef-2322-45c3-9659-54c4d0f57474" config-ref="HTTP_Request_configuration1" path="/forecasts/{city}">
+			<reconnect />
+					<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	'city' : vars.location
+}]]]></http:uri-params>
+					<http:query-params><![CDATA[#[output application/java
+---
+{
+	"filter" : "day",
+	"client_id" : "CBOrZQokTXXpO0BKZp83V",
+	"client_secret" : "qZnXCZuSn8s5XRdhya6ebqiFIDJTKwyMSzKAxc4S",
+	"limit" : "1",
+	"fields" : "loc,periods.maxTempC,periods.minTempC,periods.weather"
+}]]]></http:query-params>
+</http:request>
+				<ee:transform doc:name="Transform Message" doc:id="8558720e-fb58-45cc-9208-7df81caf75ea" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	success: payload.success,
+	error: payload.error,
+	response: payload.response map ( response , indexOfResponse ) -> {
+		loc: response.loc,
+		periods: response.periods map ( period , indexOfPeriod ) -> {
+			maxTempC: period.maxTempC,
+			minTempC: period.minTempC,
+			weather: period.weather
+		}
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="7b03ec08-6219-4421-a809-76b51b7acf9d" message="forecast - #[payload]" />
+			</route>
+			<route >
+				<http:request method="GET" doc:name="Request Alert" doc:id="84c3eb03-cb83-4e29-8d23-8516949d525c" config-ref="HTTP_Request_configuration1" path="/alerts/{city}">
+					<reconnect />
+					<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	'city' : vars.location
+}]]]></http:uri-params>
+					<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"client_id" : "CBOrZQokTXXpO0BKZp83V",
+	"client_secret" : "qZnXCZuSn8s5XRdhya6ebqiFIDJTKwyMSzKAxc4S",
+	"fields" : "details.name,loc,details.body",
+	"limit" : "10"
+}]]]></http:query-params>
+				</http:request>
+				<ee:transform doc:name="Transform Message" doc:id="5adbba18-de2c-405e-9498-85735c0c82cd">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	success: payload.success,
+	error: payload.error,
+	response: payload.response map ( response , indexOfResponse ) -> {
+		details: response.details,
+		loc: response.loc
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger" doc:id="0aa51d02-4eea-4fd4-8aab-7ae56f778c2c" message="alerts - #[payload]"/>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="189aaf1c-ee79-40de-8b4c-43af6cfd6155" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	data:{
+	loc: {
+		lat: payload."0".payload.response[0].loc.lat,
+		long: payload."0".payload.response[0].loc.long
+	},
+	airqualtiy: {
+		place: {
+			name: payload."0".payload.response[0].place.name,
+			state: payload."0".payload.response[0].place.state,
+			country: payload."0".payload.response[0].place.country
+		},
+		periods: payload."0".payload.response[0].periods map ( period , indexOfPeriod ) -> {
+			dominant: period.dominant,
+			pollutants: period.pollutants filter ($."type" == period.dominant) map ( pollutant , indexOfPollutant ) -> {
+				"type": pollutant."type",
+				name: pollutant.name,
+				valuePPB: pollutant.valuePPB,
+				valueUGM3: pollutant.valueUGM3,
+				aqi: pollutant.aqi,
+				category: pollutant.category,
+				color: pollutant.color,
+				method: pollutant.method
+			}
+		}
+	},
+	forecasts: {
+		periods: payload."1".payload.response[0].periods map ( period , indexOfPeriod ) -> {
+			maxTempC: period.maxTempC,
+			minTempC: period.minTempC,
+			weather: period.weather
+		}
+	},
+	alerts: {
+		details: payload."2".payload.response[0].details
+	}
+}
+
+}	
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="639b5f8e-2933-4c4a-be57-2314e466f96a" />
+		<logger level="INFO" doc:name="Logger" doc:id="043823fc-8d42-4878-8aaf-89d761c888f0" message="#[payload]"/>
+	
+</flow>
+</mule>
