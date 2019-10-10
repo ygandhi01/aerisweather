@@ -111,7 +111,7 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<logger level="INFO" doc:name="Logger" doc:id="7b03ec08-6219-4421-a809-76b51b7acf9d" message="forecast - #[payload]" />
+				<logger level="INFO" doc:name="Logger" doc:id="7b03ec08-6219-4421-a809-76b51b7acf9d" message="forecast is- #[payload]" />
 			</route>
 			<route >
 				<http:request method="GET" doc:name="Request Alert" doc:id="84c3eb03-cb83-4e29-8d23-8516949d525c" config-ref="HTTP_Request_configuration1" path="/alerts/{city}">
