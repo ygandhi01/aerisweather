@@ -145,7 +145,7 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<logger level="INFO" doc:name="Logger" doc:id="0aa51d02-4eea-4fd4-8aab-7ae56f778c2c" message="alerts - #[payload]"/>
+				<logger level="INFO" doc:name="Logger" doc:id="0aa51d02-4eea-4fd4-8aab-7ae56f778c2c" message="alerts is - #[payload]"/>
 			</route>
 		</scatter-gather>
 		<ee:transform doc:name="Transform Message" doc:id="189aaf1c-ee79-40de-8b4c-43af6cfd6155" >
