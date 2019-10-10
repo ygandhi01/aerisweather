@@ -72,7 +72,7 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<logger level="INFO" doc:name="Logger" doc:id="ac20a6ed-e13a-4217-bfef-b0db2b2f4346" message="airquality #[payload]" />
+				<logger level="INFO" doc:name="Logger" doc:id="ac20a6ed-e13a-4217-bfef-b0db2b2f4346" message="airquality is #[payload]" />
 			</route>
 			<route >
 				<http:request method="GET" doc:name="Request Forecast" doc:id="182428ef-2322-45c3-9659-54c4d0f57474" config-ref="HTTP_Request_configuration1" path="/forecasts/{city}">
